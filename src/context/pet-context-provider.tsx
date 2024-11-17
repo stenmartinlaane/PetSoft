@@ -8,6 +8,7 @@ type TPetContext = {
   selectedPetId: string | null;
   handleChangeSelectedPetId: (petId: string) => void;
   selectedPet: undefined | Pet;
+  numberOfPets: number
 };
 
 export const PetContext = createContext<TPetContext | null>(null);
@@ -23,16 +24,19 @@ export default function PetContextProvider({
 }: PetContextProviderProps) {
   const [pets, setPets] = useState<Pet[]>(data);
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
+  const [searchText, setSearchText] = useState("");
 
   const handleChangeSelectedPetId = (petId: string) => {
     setSelectedPetId(petId);
   };
 
+  const numberOfPets = pets.length
+
   const selectedPet = pets.find((pet) => pet.id === selectedPetId);
 
   return (
     <PetContext.Provider
-      value={{ pets, selectedPetId, handleChangeSelectedPetId, selectedPet }}
+      value={{ pets, selectedPetId, handleChangeSelectedPetId, selectedPet, numberOfPets }}
     >
       {children}
     </PetContext.Provider>
